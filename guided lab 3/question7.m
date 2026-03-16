@@ -1,0 +1,43 @@
+
+filename = 'observed-timeseries-of-a.csv';
+%set options to read semicolon-delimited files
+%treat temperature column as 'text' first to fix the commas
+opts = detectImportOptions(filename, 'Delimiter', ';');
+opts = setvartype(opts, [2, 3], 'char'); 
+tbl = readtable(filename, opts);
+
+%extract col1 and convert to a numeric array
+x_time = tbl{:, 1};
+
+% extract col2 and get the raw string data
+temp_strings = tbl{:, 2};
+
+%replace commas with dots and convert to double
+y_temp = strrep(temp_strings, ',', '.');
+y_temp = str2double(y_temp);
+
+
+xstar = 1980.5;
+ystar = cubic_spline(x_time, y_temp, xstar);
+
+%step 0.1
+split_days = min(x_time):0.1:max(x_time);
+ystar_plot = zeros(size(split_days));
+
+for i = 1:length(split_days)
+    ystar_plot(i) = cubic_spline(x_time, y_temp, split_days(i));
+end
+
+fprintf('Interpolated temperature for year %.1f: %.4f °C\n', xstar, ystar);
+
+figure;
+plot(x_time, y_temp, 'ro', 'MarkerSize', 4, 'DisplayName', 'Annual Mean Data'); 
+hold on;
+plot(split_days, ystar_plot, 'b-', 'LineWidth', 1.2, 'DisplayName', 'Cubic Spline');
+plot(xstar, ystar, 'ks', 'MarkerSize', 10, 'MarkerFaceColor', 'g', 'DisplayName', 'Target Year');
+
+xlabel('Year');
+ylabel('Temperature (°C)');
+title('Question 7: Natural Cubic Spline Interpolation of Climate Data');
+legend('Location', 'best');
+grid on;

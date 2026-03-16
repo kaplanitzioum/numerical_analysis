@@ -1,0 +1,25 @@
+%question 6(b)
+days = [0; 6; 10; 13; 17; 20; 28];
+
+avg_young_weight = [7; 18; 45; 40; 32; 30.5; 30];
+avg_mature_weight =[7; 16; 19; 15; 12; 10.5; 10];
+
+%i need to split the days in smaller sizes
+split_days = 0:0.5:28;
+ystar_young = zeros(size(split_days));
+ystar_mature = zeros(size(split_days));
+
+for i= 1:length(split_days) 
+        ystar_young(i) = cubic_spline(days, avg_young_weight, split_days(i));
+        ystar_mature(i) = cubic_spline(days, avg_mature_weight, split_days(i));
+end
+
+[max_young,pos1]=max(ystar_young);
+[max_mat, pos2]=max(ystar_mature);
+
+day_young = split_days(pos1);
+day_mat = split_days(pos2);
+
+fprintf('Largest mean weight of young leaves: %.4f on day: %.1f\n', max_young, day_young);
+
+fprintf('Largest mean weight of mature leaves: %.4f on day: %.1f\n', max_mat, day_mat);
