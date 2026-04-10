@@ -1,0 +1,5 @@
+1)https://pages.hmc.edu/ruye/MachineLearning/lectures/ch6/node11.html
+2)https://www.mathworks.com/help/optim/ug/fsolve.html
+3)https://math.stackexchange.com/questions/4326771/derive-the-error-for-the-midpoint-rule
+4)https://web.stanford.edu/class/math114/lecture_notes/nc_quad.pdf
+5)https://personal.math.vt.edu/embree/math5466/lecture22.pdf
